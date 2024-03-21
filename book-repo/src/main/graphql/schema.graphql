@@ -1,0 +1,9 @@
+type Book {
+    id: Int!
+    title: String!
+    author: String! @lazy
+}
+
+type Query {
+    books(title: String): [Book!]! @lazy
+}
