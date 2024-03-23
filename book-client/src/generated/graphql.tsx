@@ -19,7 +19,7 @@ export type Scalars = {
 
 export type Book = {
   __typename?: 'Book';
-  author: Scalars['String']['output'];
+  author?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   title: Scalars['String']['output'];
 };
@@ -37,7 +37,17 @@ export type QueryBooksArgs = {
 export type GetAllBooksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllBooksQuery = { __typename?: 'Query', books: Array<{ __typename?: 'Book', id: number, title: string, author: string }> };
+export type GetAllBooksQuery = { __typename?: 'Query', books: Array<{ __typename?: 'Book', id: number, title: string, author?: string | null }> };
+
+export type GetAllBooksDeferredQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllBooksDeferredQuery = { __typename?: 'Query', books: Array<{ __typename?: 'Book', id: number, title: string } & ({ __typename?: 'Book', author?: string | null } | { __typename?: 'Book', author?: never })> };
+
+export type GetAllBooksHeadersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllBooksHeadersQuery = { __typename?: 'Query', books: Array<{ __typename?: 'Book', id: number, title: string }> };
 
 
 export const GetAllBooksDocument = gql`
@@ -81,3 +91,86 @@ export type GetAllBooksQueryHookResult = ReturnType<typeof useGetAllBooksQuery>;
 export type GetAllBooksLazyQueryHookResult = ReturnType<typeof useGetAllBooksLazyQuery>;
 export type GetAllBooksSuspenseQueryHookResult = ReturnType<typeof useGetAllBooksSuspenseQuery>;
 export type GetAllBooksQueryResult = Apollo.QueryResult<GetAllBooksQuery, GetAllBooksQueryVariables>;
+export const GetAllBooksDeferredDocument = gql`
+    query GetAllBooksDeferred {
+  books {
+    id
+    title
+    ... @defer(label: "authordelay") {
+      author
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllBooksDeferredQuery__
+ *
+ * To run a query within a React component, call `useGetAllBooksDeferredQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllBooksDeferredQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllBooksDeferredQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllBooksDeferredQuery(baseOptions?: Apollo.QueryHookOptions<GetAllBooksDeferredQuery, GetAllBooksDeferredQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllBooksDeferredQuery, GetAllBooksDeferredQueryVariables>(GetAllBooksDeferredDocument, options);
+      }
+export function useGetAllBooksDeferredLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllBooksDeferredQuery, GetAllBooksDeferredQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllBooksDeferredQuery, GetAllBooksDeferredQueryVariables>(GetAllBooksDeferredDocument, options);
+        }
+export function useGetAllBooksDeferredSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllBooksDeferredQuery, GetAllBooksDeferredQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllBooksDeferredQuery, GetAllBooksDeferredQueryVariables>(GetAllBooksDeferredDocument, options);
+        }
+export type GetAllBooksDeferredQueryHookResult = ReturnType<typeof useGetAllBooksDeferredQuery>;
+export type GetAllBooksDeferredLazyQueryHookResult = ReturnType<typeof useGetAllBooksDeferredLazyQuery>;
+export type GetAllBooksDeferredSuspenseQueryHookResult = ReturnType<typeof useGetAllBooksDeferredSuspenseQuery>;
+export type GetAllBooksDeferredQueryResult = Apollo.QueryResult<GetAllBooksDeferredQuery, GetAllBooksDeferredQueryVariables>;
+export const GetAllBooksHeadersDocument = gql`
+    query GetAllBooksHeaders {
+  books {
+    id
+    title
+  }
+}
+    `;
+
+/**
+ * __useGetAllBooksHeadersQuery__
+ *
+ * To run a query within a React component, call `useGetAllBooksHeadersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllBooksHeadersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllBooksHeadersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllBooksHeadersQuery(baseOptions?: Apollo.QueryHookOptions<GetAllBooksHeadersQuery, GetAllBooksHeadersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllBooksHeadersQuery, GetAllBooksHeadersQueryVariables>(GetAllBooksHeadersDocument, options);
+      }
+export function useGetAllBooksHeadersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllBooksHeadersQuery, GetAllBooksHeadersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllBooksHeadersQuery, GetAllBooksHeadersQueryVariables>(GetAllBooksHeadersDocument, options);
+        }
+export function useGetAllBooksHeadersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllBooksHeadersQuery, GetAllBooksHeadersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllBooksHeadersQuery, GetAllBooksHeadersQueryVariables>(GetAllBooksHeadersDocument, options);
+        }
+export type GetAllBooksHeadersQueryHookResult = ReturnType<typeof useGetAllBooksHeadersQuery>;
+export type GetAllBooksHeadersLazyQueryHookResult = ReturnType<typeof useGetAllBooksHeadersLazyQuery>;
+export type GetAllBooksHeadersSuspenseQueryHookResult = ReturnType<typeof useGetAllBooksHeadersSuspenseQuery>;
+export type GetAllBooksHeadersQueryResult = Apollo.QueryResult<GetAllBooksHeadersQuery, GetAllBooksHeadersQueryVariables>;

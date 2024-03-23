@@ -1,0 +1,6 @@
+query GetAllBooksHeaders {
+    books {
+        id
+        title
+    }
+}

@@ -1,7 +1,7 @@
 type Book {
     id: Int!
     title: String!
-    author: String! @lazy
+    author: String @lazy
 }
 
 type Query {

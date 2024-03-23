@@ -2,9 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {ApolloClient, InMemoryCache, ApolloProvider, gql, useQuery, HttpLink} from '@apollo/client';
 import './App.css';
 import {Book} from './generated/graphql';
-import {useGetAllBooksQuery, GetAllBooksQuery} from './generated/graphql';
+import {useGetAllBooksDeferredQuery, GetAllBooksQuery} from './generated/graphql';
 import {loadErrorMessages, loadDevMessages} from "@apollo/client/dev";
-import {setContext} from '@apollo/client/link/context';
 
 // Adds messages only in a dev environment
 loadDevMessages();
@@ -14,7 +13,7 @@ loadErrorMessages();
 function App() {
     const [books, setBooks] = useState<Book[]>([]);
 
-    const {data, loading, error} = useGetAllBooksQuery();
+    const {data, loading, error} = useGetAllBooksDeferredQuery();
 
     useEffect(() => {
         if (data && data.books) {
@@ -40,8 +39,10 @@ function App() {
                         <h2>Books</h2>
                         <div>
                             {books.map(({id, title, author}) => (
-                                <div key={id}>
-                                    <p>{title} by {author}</p>
+                                <div key={id} className="book-card">
+                                    <p className="title">{title}</p>
+                                    {author ? <p className="author">by {author}</p> :
+                                        <p className="author unknown-author">by unknown author</p>}
                                 </div>
                             ))}
                         </div>
@@ -53,13 +54,12 @@ function App() {
 }
 
 const httpLink = new HttpLink({
-    uri: 'http://localhost:5015/api/graphql',
+    uri: 'http://localhost:8088/api/graphql',
     headers: {'token': 'hello'},
     fetchOptions: {
-        mode: 'no-cors'
+        mode: 'cors'
     }
 });
-
 
 
 const client = new ApolloClient({

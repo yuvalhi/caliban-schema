@@ -1,0 +1,9 @@
+query GetAllBooksDeferred {
+books {
+        id
+        title
+        ... @defer(label: "authordelay"){
+            author
+        }
+    }
+}

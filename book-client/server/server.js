@@ -6,6 +6,15 @@ const morgan = require('morgan');
 const app = express();
 app.use(morgan('dev'));
 app.use(cors());
+app.use(function (request, response, next) {
+    response.header("Access-Control-Allow-Origin", "*")
+    response.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    )
+    next()
+});
+
 
 app.use('/api', createProxyMiddleware({
     target: 'http://localhost:8088/api/graphql', // this is your internal server
