@@ -9,6 +9,7 @@ import org.http4s.dsl.Http4sDsl
 import org.http4s.ember.server.EmberServerBuilder
 import org.http4s.headers.`WWW-Authenticate`
 import org.http4s.server.Router
+import org.http4s.server.middleware.CORS
 import zio.interop.catz._
 import zio.{Scope, Task, ZIO, ZIOAppArgs, ZIOAppDefault}
 
@@ -57,15 +58,20 @@ object BookRepoMain extends ZIOAppDefault {
         .withHttp2
         .withHttpApp(
           Router[Task](
-            "/api/graphql" -> AuthMiddleware(Http4sAdapter.makeHttpService(HttpInterpreter(interpreter
-              .mapError((e: CalibanError) => {
-                e match {
-                  case a @ CalibanError.ExecutionError(_,_,_,Some(BookNotFound(message)),_) =>
-                    a.copy(msg = message)
-                  case _ => e
-                }
-              })
-            )))
+            "/api/graphql" -> CORS.policy
+              .withAllowHeadersAll
+              .withAllowOriginAll
+              .withAllowMethodsAll
+              (
+                AuthMiddleware(Http4sAdapter.makeHttpService(HttpInterpreter(interpreter
+                  .mapError((e: CalibanError) => {
+                    e match {
+                      case a@CalibanError.ExecutionError(_, _, _, Some(BookNotFound(message)), _) =>
+                        a.copy(msg = message)
+                      case _ => e
+                    }
+                  }))
+                )))
           ).orNotFound
         )
         .build

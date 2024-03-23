@@ -1,0 +1,9 @@
+overwrite: true
+schema: "../book-repo/src/main/graphql/schema.graphql" # replace with your GraphQL endpoint or local schema file
+documents: "queries/*.graphql"
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"

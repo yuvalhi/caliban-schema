@@ -39,7 +39,7 @@ object BookRepoApi {
     val api = graphQL(RootResolver(query)) @@
       maxFields(300) @@ // query analyzer that limit query fields
       maxDepth(30) @@ // query analyzer that limit query depth
-      timeout(5 seconds) @@ // wrapper that fails slow queries
+      timeout(15 seconds) @@ // wrapper that fails slow queries
       printSlowQueries(500 millis) @@ // wrapper that logs slow queries
       printErrors @@ // wrapper that logs errors
       apolloTracing() @@ // wrapper for https://github.com/apollographql/apollo-tracing
