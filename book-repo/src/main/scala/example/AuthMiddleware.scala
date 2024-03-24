@@ -12,9 +12,7 @@ object AuthMiddleware {
       route,
       _.headers.get(CIString("token")) match {
         case Some(value) => ZLayer.succeed(AuthToken(value.head.value))
-        case None =>
-        println("Missing token")
-          ZLayer.succeed(AuthToken("hello"))
+        case None => ZLayer.fail(MissingToken())
       }
     )
 }
