@@ -54,12 +54,15 @@
 }
 
 .author {
-  font-size: 18px;
-  color: #666;
+  color: #555;
+  transition: all 0.5s ease-in-out;
 }
-.author {
-  font-size: 18px;
-  color: #666;
+
+.emphasized-author {
+  font-weight: bold;
+  color: #755d90; /* Change this to your preferred color */
+  font-size: 1.2em;
+  transition: all 0.5s ease-in-out;
 }
 @keyframes App-logo-spin {
   from {

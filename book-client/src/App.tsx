@@ -41,8 +41,10 @@ function App() {
                             {books.map(({id, title, author}) => (
                                 <div key={id} className="book-card">
                                     <p className="title">{title}</p>
-                                    {author ? <p className="author">by {author}</p> :
-                                        <p className="author unknown-author">by unknown author</p>}
+                                    {author ?
+                                        <p className={`author ${author !== 'unknown' ? 'emphasized-author' : ''}`}>by {author}</p> :
+                                        <p className="author unknown-author">by unknown author</p>
+                                    }
                                 </div>
                             ))}
                         </div>
