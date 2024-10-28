@@ -6,4 +6,13 @@ type Book {
 
 type Query {
     books(title: String): [Book!]! @lazy
+    bookById(id: Int!): Book
+    booksByAuthor(author: String!): [Book!]!
+    booksByTitle(title: String!): [Book!]!
+}
+
+type Mutation {
+    addBook(title: String!, author: String!): Book!
+    updateBook(id: Int!, title: String, author: String): Book!
+    deleteBook(id: Int!): Boolean!
 }
